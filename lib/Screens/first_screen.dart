@@ -2,14 +2,14 @@ import 'package:ecommerceapp/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   bool isLoading = false;
 
   void handleStart() async {
