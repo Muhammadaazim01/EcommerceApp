@@ -78,19 +78,27 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      Get.defaultDialog(
-                        title: "Waiting",
-                        titleStyle: GoogleFonts.montserrat(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        backgroundColor: Color(0xff005DFF),
-                        content: CircularProgressIndicator(),
+                      // Show full screen loader
+                      showGeneralDialog(
+                        context: Get.context!,
                         barrierDismissible: false,
+                        barrierColor: Colors.black.withOpacity(0.5),
+                        transitionDuration: Duration(milliseconds: 200),
+                        pageBuilder: (_, __, ___) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ),
+                          );
+                        },
                       );
+
                       await Future.delayed(Duration(seconds: 2));
-                      Get.back();
+
+                      // Remove loader
+                      Navigator.of(Get.context!).pop();
+
+                      // Navigate
                       Get.to(() => AddressScreen());
                     },
                     icon: Icon(Icons.arrow_forward),
@@ -165,7 +173,9 @@ class _CartScreenState extends State<CartScreen> {
                   } else {
                     // Show loading dialog
                     Get.dialog(
-                      Center(child: CircularProgressIndicator()),
+                      Center(child: CircularProgressIndicator(
+                        color: Colors.black,
+                      )),
                       barrierDismissible: false,
                     );
 

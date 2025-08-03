@@ -20,7 +20,9 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
       backgroundColor: const Color(0xffF9FAFB),
       body: Center(
         child: _isLoading
-            ? const CircularProgressIndicator()
+            ? const CircularProgressIndicator(
+              color: Colors.black,
+            )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Column(

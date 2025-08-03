@@ -83,11 +83,18 @@ class _ShoeHomeScreenState extends State<ShoeHomeScreen> {
                         Icons.shopping_cart_outlined,
                         color: Colors.white,
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => CartScreen()),
+                      onPressed: () async {
+                        Get.dialog(
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ),
+                          ),
+                          barrierDismissible: false,
                         );
+                        await Future.delayed(Duration(seconds: 1));
+                        Get.back();
+                        Get.to(() => CartScreen());
                       },
                     ),
                     if (cartController.cartItems.isNotEmpty)
@@ -134,7 +141,7 @@ class _ShoeHomeScreenState extends State<ShoeHomeScreen> {
           const SizedBox(height: 10),
           Obx(
             () => categoryController.isLoading.value
-                ? const CircularProgressIndicator(color: Colors.white)
+                ? const CircularProgressIndicator(color: Colors.black)
                 : ShoeTabBar(
                     selectedIndex: categoryController.selectedIndex.value,
                     onTabSelected: (index) =>
@@ -175,7 +182,9 @@ class _ShoeHomeScreenState extends State<ShoeHomeScreen> {
       child: Obx(() {
         if (productController.isLoading.value ||
             categoryController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.black),
+          );
         }
 
         final selectedIndex = categoryController.selectedIndex.value;
@@ -249,7 +258,9 @@ class _ShoeHomeScreenState extends State<ShoeHomeScreen> {
       child: Obx(() {
         if (productController.isLoading.value ||
             categoryController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.black),
+          );
         }
 
         final selectedIndex = categoryController.selectedIndex.value;

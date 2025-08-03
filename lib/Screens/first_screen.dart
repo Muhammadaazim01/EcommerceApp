@@ -80,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             const SizedBox(height: 20),
             isLoading
-                ? CircularProgressIndicator(color: Colors.white)
+                ? CircularProgressIndicator(color: Colors.black)
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
