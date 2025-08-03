@@ -202,7 +202,7 @@ class DetailCard extends StatelessWidget {
                 Get.snackbar(
                   "Added to Cart",
                   "${productModel.title ?? "Item"} added successfully",
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.blueGrey,
                   colorText: Colors.white,
                   snackPosition: SnackPosition.BOTTOM,
                 );

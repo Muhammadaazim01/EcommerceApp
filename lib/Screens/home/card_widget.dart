@@ -117,6 +117,7 @@ class _ShoeCardState extends State<ShoeCard> {
                         onTap: () {
                           cartController.addToCart(widget.product);
                           Get.snackbar(
+                            backgroundColor: Colors.blueGrey,
                             "Added to Cart",
                             "${widget.product.title} added successfully!",
                             snackPosition: SnackPosition.BOTTOM,

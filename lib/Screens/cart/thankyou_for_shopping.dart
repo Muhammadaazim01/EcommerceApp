@@ -2,6 +2,7 @@ import 'package:ecommerceapp/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class ThankYouScreen extends StatefulWidget {
   const ThankYouScreen({super.key});
@@ -20,16 +21,18 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
       backgroundColor: const Color(0xffF9FAFB),
       body: Center(
         child: _isLoading
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.check_circle_rounded,
-                      color: Colors.green,
-                      size: 100,
+                    // ✅ Lottie Animation
+                    Image.asset(
+                      "assets/images/check_animation.gif",
+                      width: 150,
+                      height: 150,
+                      //  repeat: false,
                     ),
                     const SizedBox(height: 20),
                     Text(
@@ -46,7 +49,8 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
-                        color: Colors.black54,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 30),

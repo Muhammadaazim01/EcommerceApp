@@ -19,6 +19,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("My Favorites"),
         centerTitle: true,
         backgroundColor: Colors.black,
@@ -119,7 +120,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             "Removed",
                             "${product.title} removed from favorites",
                             snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red.shade100,
+                            backgroundColor: Colors.blueGrey,
                             colorText: Colors.black,
                           );
                         },
@@ -150,4 +151,3 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     );
   }
 }
-

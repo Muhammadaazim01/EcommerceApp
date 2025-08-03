@@ -1,5 +1,7 @@
 import 'package:ecommerceapp/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -23,11 +25,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       isLoading = false;
     });
 
-    // Navigate to next screen (replace with your actual screen)
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => BottomNavBarScreen(initialIndex: 0)),
-    );
+    Get.off(() => BottomNavBarScreen(initialIndex: 0));
   }
 
   @override
@@ -45,11 +43,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/splash_screen.png"),
+            Image.asset(
+              "assets/images/shopping_bag.gif",
+              height: 300,
+              width: 300,
+              fit: BoxFit.cover,
+            ),
             const SizedBox(height: 20),
             Text(
               "Where Style",
-              style: GoogleFonts.roboto(
+              style: GoogleFonts.actor(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -57,7 +60,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             Text(
               "Meets Comfort",
-              style: GoogleFonts.roboto(
+              style: GoogleFonts.actor(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
