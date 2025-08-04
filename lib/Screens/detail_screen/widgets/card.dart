@@ -242,11 +242,4 @@ class _DetailCardState extends State<DetailCard> {
     );
   }
 
-  Widget _colorDot(Color color) {
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-    );
-  }
 }
