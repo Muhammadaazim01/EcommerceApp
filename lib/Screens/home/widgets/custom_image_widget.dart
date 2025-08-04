@@ -8,7 +8,8 @@ Widget buildProductImage(String url, {double? width, double? height}) {
       width: width,
       height: height,
       fit: BoxFit.cover,
-      placeholderBuilder: (_) => const Center(child: CircularProgressIndicator()),
+      placeholderBuilder: (_) =>
+          const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -17,11 +18,12 @@ Widget buildProductImage(String url, {double? width, double? height}) {
     width: width,
     height: height,
     fit: BoxFit.cover,
-    errorBuilder: (_, __, ___) => _noImageAvailableWidget(width, height),
+    errorBuilder: (_, __, ___) => noImageAvailableWidget(width, height),
   );
 }
 
-Widget _noImageAvailableWidget(double? width, double? height) {
+// ✅ Public widget now
+Widget noImageAvailableWidget(double? width, double? height) {
   return Container(
     width: width,
     height: height,

@@ -2,6 +2,7 @@ import 'package:ecommerceapp/Screens/cart/cart_main.dart';
 import 'package:ecommerceapp/Screens/detail_screen/widgets/card.dart'
     show DetailCard;
 import 'package:ecommerceapp/Screens/home/widgets/card.dart';
+import 'package:ecommerceapp/Screens/home/widgets/custom_image_widget.dart';
 import 'package:ecommerceapp/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -134,15 +135,14 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: imageList.isEmpty
-                            ? Image.asset(
-                                'assets/images/placeholder.png',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
+                            ? noImageAvailableWidget(
+                                double.infinity,
+                                double.infinity,
                               )
-                            : Image.network(
+                            : buildProductImage(
                                 imageList[index],
-                                fit: BoxFit.cover,
                                 width: double.infinity,
+                                height: double.infinity,
                               ),
                       ),
                     );

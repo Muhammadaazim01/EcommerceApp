@@ -1,6 +1,7 @@
 import 'package:ecommerceapp/Screens/detail_screen/detail_screen.dart'
     show DetailScreen;
 import 'package:ecommerceapp/Screens/favrouite/controller.dart';
+import 'package:ecommerceapp/Screens/home/widgets/custom_image_widget.dart';
 import 'package:ecommerceapp/controllers/product_controller.dart';
 
 import 'package:flutter/material.dart';
@@ -68,11 +69,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(16),
                           ),
-                          child: Image.network(
-                            product.images?.first ?? '',
+                          child: buildProductImage(
+                            product.images?.first ?? "",
                             height: 180,
                             width: double.infinity,
-                            fit: BoxFit.cover,
                           ),
                         ),
                         Padding(
