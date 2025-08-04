@@ -1,4 +1,5 @@
-import 'package:ecommerceapp/Screens/detail_screen.dart';
+import 'package:ecommerceapp/Screens/detail_screen/detail_screen.dart'
+    show DetailScreen;
 import 'package:ecommerceapp/Screens/favrouite/controller.dart';
 import 'package:ecommerceapp/controllers/product_controller.dart';
 
@@ -137,7 +138,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               ),
                             ],
                           ),
-                          child: const Icon(Icons.delete, color: Colors.red),
+                          child: const Icon(Icons.delete, color: Colors.black),
                         ),
                       ),
                     ),

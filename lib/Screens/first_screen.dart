@@ -76,6 +76,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(height: 20),
@@ -84,7 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
-                      minimumSize: const Size(376, 76),
+                      minimumSize: const Size(300, 76),
                     ),
                     onPressed: handleStart,
                     child: Text(

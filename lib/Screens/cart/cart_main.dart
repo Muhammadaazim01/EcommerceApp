@@ -173,9 +173,9 @@ class _CartScreenState extends State<CartScreen> {
                   } else {
                     // Show loading dialog
                     Get.dialog(
-                      Center(child: CircularProgressIndicator(
-                        color: Colors.black,
-                      )),
+                      Center(
+                        child: CircularProgressIndicator(color: Colors.black),
+                      ),
                       barrierDismissible: false,
                     );
 

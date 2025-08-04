@@ -1,4 +1,5 @@
 import 'package:ecommerceapp/Screens/cart/cart_controller.dart';
+import 'package:ecommerceapp/Screens/home/widgets/custom_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,12 +32,8 @@ class CartItemWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Image.network(
-                imageUrl,
-                width: 100,
-                height: 150,
-                fit: BoxFit.cover,
-              ),
+              /// ✅ Use reusable image widget here
+              buildProductImage(imageUrl, width: 100, height: 150),
               SizedBox(width: 10),
               Expanded(
                 child: Column(

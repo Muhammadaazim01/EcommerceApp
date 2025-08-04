@@ -25,13 +25,13 @@ class ShoeTabBar extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 8),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.white : Colors.transparent,
+                color: isSelected ? Colors.black : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
                 tabs[index],
                 style: TextStyle(
-                  color: isSelected ? Colors.black : Colors.white,
+                  color: isSelected ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),

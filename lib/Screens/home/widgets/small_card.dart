@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ShoeCardVertcial extends StatelessWidget {
-  final String imageurl;
-  const ShoeCardVertcial({super.key, required this.imageurl});
+  final Widget imageWidget;
+
+  const ShoeCardVertcial({
+    Key? key,
+    required this.imageWidget,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +26,8 @@ class ShoeCardVertcial extends StatelessWidget {
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(10),
-        child: Image.network(imageurl),
+        borderRadius: BorderRadius.circular(10),
+        child: imageWidget,
       ),
     );
   }

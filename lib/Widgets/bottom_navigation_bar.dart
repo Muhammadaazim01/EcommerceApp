@@ -18,7 +18,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const ShoeHomeScreen(),
+     ShoeHomeScreen(),
     Center(child: Text("Search")),
     FavoriteScreen(),
     Center(child: Text("Profile")),

@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/Screens/cart/cart_controller.dart';
-import 'package:ecommerceapp/Screens/detail_screen.dart';
+import 'package:ecommerceapp/Screens/detail_screen/detail_screen.dart'
+    show DetailScreen;
 import 'package:ecommerceapp/Screens/favrouite/controller.dart';
 import 'package:ecommerceapp/models/product_model.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ final CartController cartController = Get.find<CartController>();
 final favoriteController = Get.find<FavoriteController>();
 
 class _ShoeCardState extends State<ShoeCard> {
+  bool isAdding = false; // 👈 add this
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -58,7 +61,7 @@ class _ShoeCardState extends State<ShoeCard> {
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: widget.imageWidget, // ✅ FIXED
+                    child: widget.imageWidget,
                   ),
                 ),
                 Positioned(
@@ -80,7 +83,6 @@ class _ShoeCardState extends State<ShoeCard> {
                 ),
               ],
             ),
-
             SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -108,36 +110,64 @@ class _ShoeCardState extends State<ShoeCard> {
                       Text(
                         widget.price,
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          cartController.addToCart(widget.product);
-                          Get.snackbar(
-                            backgroundColor: Colors.blueGrey,
-                            "Added to Cart",
-                            "${widget.product.title} added successfully!",
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Add to Cart",
-                              style: GoogleFonts.roboto(color: Colors.white),
+                      isAdding
+                          ? SizedBox(
+                              height: 30,
+                              width: 100,
+                              child: Center(
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () async {
+                                setState(
+                                  () => isAdding = true,
+                                ); // 👈 show loader
+                                await Future.delayed(
+                                  Duration(milliseconds: 700),
+                                ); // optional delay
+                                cartController.addToCart(widget.product);
+                                setState(
+                                  () => isAdding = false,
+                                ); // 👈 hide loader
+                                Get.snackbar(
+                                  backgroundColor: Colors.blueGrey,
+                                  "Added to Cart",
+                                  "${widget.product.title} added successfully!",
+                                  snackPosition: SnackPosition.BOTTOM,
+                                );
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Add to Cart",
+                                    style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ],
