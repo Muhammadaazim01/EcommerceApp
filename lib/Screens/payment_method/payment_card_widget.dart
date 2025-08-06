@@ -1,7 +1,8 @@
+import 'package:ecommerceapp/Screens/payment_method/widgets/payment_controller.dart';
 import 'package:flutter/material.dart';
-import 'payment_bottom_sheet.dart'; // Make sure this file exists
+import 'package:get/get.dart';
 
-class PaymentCardWidget extends StatelessWidget {
+class PaymentCardWidget extends StatefulWidget {
   final String cardType;
   final String lastDigits;
 
@@ -12,27 +13,27 @@ class PaymentCardWidget extends StatelessWidget {
   });
 
   @override
+  State<PaymentCardWidget> createState() => _PaymentCardWidgetState();
+}
+
+class _PaymentCardWidgetState extends State<PaymentCardWidget> {
+  final PaymentController paymentController = Get.find();
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-          ),
-          builder: (context) => const PaymentBottomSheet(),
-        );
+        paymentController.makePayment();
       },
+
       child: Card(
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
                 color: Colors.black12,
                 blurRadius: 4,
@@ -47,26 +48,23 @@ class PaymentCardWidget extends StatelessWidget {
                 width: 60,
                 height: 40,
                 child: Image.asset(
-                  "assets/images/shoes_image.png",
+                  "assets/images/visa_card.png",
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
 
               // Card Details
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cardType,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    widget.cardType,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
-                    lastDigits,
+                    widget.lastDigits,
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                 ],

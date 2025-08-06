@@ -48,7 +48,7 @@ class AddressCardWidget extends StatelessWidget {
                     Text(
                       name,
                       style: GoogleFonts.montserrat(
-                        fontSize: 17,
+                        fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
@@ -67,7 +67,7 @@ class AddressCardWidget extends StatelessWidget {
                 Text(
                   description,
                   style: GoogleFonts.montserrat(
-                    fontSize: 14,
+                    fontSize: 10,
                     color: Colors.blueGrey,
                   ),
                   maxLines: 2,

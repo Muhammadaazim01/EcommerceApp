@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class ShoeCardVertcial extends StatelessWidget {
   final Widget imageWidget;
 
-  const ShoeCardVertcial({
-    Key? key,
+   const ShoeCardVertcial({
+    super.key,
     required this.imageWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

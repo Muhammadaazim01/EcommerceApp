@@ -47,6 +47,7 @@ class _ShoeCardState extends State<ShoeCard> {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.15),
               blurRadius: 20,
               offset: Offset(0, 10),

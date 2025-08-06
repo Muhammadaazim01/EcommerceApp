@@ -1,7 +1,6 @@
 import 'package:ecommerceapp/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -33,7 +32,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xff000000), Color(0xff005DFF)],
             begin: Alignment.topCenter,
@@ -49,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               width: 300,
               fit: BoxFit.cover,
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
             Text(
               "Where Style",
               style: GoogleFonts.actor(
@@ -67,9 +66,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding:EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                "Join us to celebrate stylish, comfy footwear.\nYour path to extraordinary style begins here.",
+                "Join us to celebrate stylish, comfy footwear\nYour path to extraordinary style begins here",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: 16,
@@ -80,13 +79,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            const SizedBox(height: 20),
+          SizedBox(height: 20),
             isLoading
                 ? CircularProgressIndicator(color: Colors.black)
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
-                      minimumSize: const Size(300, 76),
+                      minimumSize: Size(300, 76),
                     ),
                     onPressed: handleStart,
                     child: Text(

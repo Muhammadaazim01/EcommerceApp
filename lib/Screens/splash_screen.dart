@@ -1,4 +1,4 @@
-import 'package:ecommerceapp/Screens/first_screen.dart';
+import 'package:ecommerceapp/Screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 3), () {

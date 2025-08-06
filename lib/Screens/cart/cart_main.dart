@@ -6,6 +6,7 @@ import 'package:ecommerceapp/Screens/cart/cart_container.dart';
 import 'package:ecommerceapp/Screens/cart/cart_controller.dart';
 import 'package:ecommerceapp/Screens/cart/thankyou_for_shopping.dart';
 import 'package:ecommerceapp/Screens/payment_method/payment_card_widget.dart';
+import 'package:ecommerceapp/Screens/payment_method/widgets/payment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +21,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final cartController = Get.find<CartController>();
   final addressController = Get.put(AddressController());
+  final PaymentController paymentController = Get.find<PaymentController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,8 +138,8 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
               PaymentCardWidget(
-                cardType: 'Visa Classic',
-                lastDigits: '**** 7690',
+                cardType: "Card Pay",
+                lastDigits: "**** **** **** **90",
               ),
               SizedBox(height: 10),
               Text(

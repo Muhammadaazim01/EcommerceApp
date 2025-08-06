@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.ecommerceapp"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -16,7 +16,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "11"
     }
 
     defaultConfig {
@@ -25,9 +25,9 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 21
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
     }
 
    buildTypes {
@@ -46,4 +46,10 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies {
+    implementation("com.google.android.material:material:1.11.0")
+}
+subprojects {
+    project.buildDir = File(rootProject.buildDir, project.name)
 }

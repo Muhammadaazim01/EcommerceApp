@@ -1,13 +1,5 @@
-# Stripe SDK keep rules
--keep class com.stripe.** { *; }
--dontwarn com.stripe.**
-
--keep class com.reactnativestripesdk.** { *; }
--dontwarn com.reactnativestripesdk.**
-
--keep class kotlin.** { *; }
--keep class kotlinx.** { *; }
-
--keepclassmembers class * {
-    public <init>(...);
-}
+-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivity$g
+-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Args
+-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter$Error
+-dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter
+-dontwarn com.stripe.android.pushProvisioning.PushProvisioningEphemeralKeyProvider
