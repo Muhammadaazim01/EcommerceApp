@@ -1,12 +1,13 @@
+import 'package:ecommerceapp/Screens/cart/cart_controller.dart';
 import 'package:ecommerceapp/Screens/cart/cart_main.dart';
 import 'package:ecommerceapp/Screens/detail_screen/widgets/card.dart'
     show DetailCard;
-import 'package:ecommerceapp/Screens/home/widgets/card.dart';
 import 'package:ecommerceapp/Screens/home/widgets/custom_image_widget.dart';
 import 'package:ecommerceapp/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+final cartController = Get.find<CartController>();
 
 class DetailScreen extends StatefulWidget {
   final ProductModel productModel;
@@ -28,174 +29,139 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   List<String> sizednumber = ["S", "M", "L", "XL", "XXL"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          // ✅ Top AppBar
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          widget.productModel.category?.name ?? "Detail",
+          style: const TextStyle(color: Colors.black),
+        ),
+        actions: [
+          Obx(
+            () => Stack(
               children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(Icons.arrow_back, size: 28),
-                ),
-                Text(
-                  widget.productModel.category?.name ?? "Detail",
-                  style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                IconButton(
+                  icon: const Icon(
+                    Icons.shopping_cart_outlined,
+                    color: Colors.black,
                   ),
+                  onPressed: () => Get.to(() => const CartScreen()),
                 ),
-                Obx(
-                  () => Stack(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.black,
+                if (cartController.cartItems.isNotEmpty)
+                  Positioned(
+                    right: 6,
+                    top: 6,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '${cartController.cartItems.length}',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CartScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      if (cartController.cartItems.isNotEmpty)
-                        Positioned(
-                          right: 4,
-                          top: 4,
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Text(
-                              '${cartController.cartItems.length}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // ✅ Product Image Carousel Overlapping
-          // ✅ Product Image Carousel Overlapping – Stylish Version
-          Stack(
-            children: [
-              Container(
-                height: 280,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.grey.shade100, Colors.white],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: imageList.isEmpty ? 1 : imageList.length,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentPage = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return AnimatedContainer(
-                      duration: Duration(milliseconds: 400),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 20,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.shade400,
-                            blurRadius: 15,
-                            offset: Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: imageList.isEmpty
-                            ? noImageAvailableWidget(
-                                double.infinity,
-                                double.infinity,
-                              )
-                            : buildProductImage(
-                                imageList[index],
-                                width: double.infinity,
-                                height: double.infinity,
-                              ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-
-              // ✅ Stylish Page Indicator
-              Positioned(
-                bottom: 10,
-                left: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    imageList.length,
-                    (index) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: _currentPage == index ? 16 : 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: _currentPage == index
-                            ? Colors.black
-                            : Colors.grey.shade400,
                       ),
                     ),
                   ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Carousel
+            Container(
+              height: 280,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: imageList.isEmpty ? 1 : imageList.length,
+                onPageChanged: (index) => setState(() => _currentPage = index),
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade400,
+                          blurRadius: 15,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: imageList.isEmpty
+                          ? noImageAvailableWidget(
+                              double.infinity,
+                              double.infinity,
+                            )
+                          : buildProductImage(
+                              imageList[index],
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            // Dot Indicators
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                imageList.length,
+                (index) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: _currentPage == index ? 16 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: _currentPage == index
+                        ? Colors.black
+                        : Colors.grey.shade400,
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
 
-          // ✅ Stylish Detail Card
-          Expanded(
-            child: Container(
+            // Detail Card Section
+            Container(
               margin: const EdgeInsets.only(top: 20),
               padding: const EdgeInsets.all(20),
-              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade300,
                     blurRadius: 20,
-                    offset: Offset(0, -5),
+                    offset: const Offset(0, -5),
                   ),
                 ],
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(35),
-                  topRight: Radius.circular(35),
-                ),
               ),
               child: DetailCard(
                 title: widget.productModel.title ?? "No title",
@@ -210,8 +176,8 @@ class _DetailScreenState extends State<DetailScreen> {
                 sizebuttontap: null,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

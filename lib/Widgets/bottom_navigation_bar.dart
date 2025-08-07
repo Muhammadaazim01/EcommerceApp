@@ -1,6 +1,9 @@
 import 'package:ecommerceapp/Screens/favrouite/controller.dart';
 import 'package:ecommerceapp/Screens/favrouite/favorite_screen.dart';
 import 'package:ecommerceapp/Screens/home/home_screen.dart';
+import 'package:ecommerceapp/Screens/search/search_screen.dart';
+import 'package:ecommerceapp/controllers/category_controller.dart';
+import 'package:ecommerceapp/controllers/product_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,10 +21,12 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-     ShoeHomeScreen(),
-    Center(child: Text("Search")),
+    ShoeHomeScreen(),
+    SearchScreen(
+      categoryController: Get.find<CategoryController>(),
+      productController: Get.find<ProductController>(),
+    ),
     FavoriteScreen(),
-    Center(child: Text("Profile")),
   ];
 
   void _onItemTapped(int index) {
@@ -87,10 +92,6 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
                         ),
                     ],
                   ),
-                  label: '',
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
                   label: '',
                 ),
               ],

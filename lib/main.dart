@@ -1,8 +1,9 @@
 import 'package:ecommerceapp/Screens/cart/cart_controller.dart';
-import 'package:ecommerceapp/Screens/cart/cart_main.dart';
 import 'package:ecommerceapp/Screens/favrouite/controller.dart';
+
 import 'package:ecommerceapp/Screens/payment_method/api_keys.dart';
 import 'package:ecommerceapp/Screens/payment_method/widgets/payment_controller.dart';
+import 'package:ecommerceapp/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -12,8 +13,10 @@ import 'controllers/product_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
+
+  await dotenv.load(fileName: ".env");
   Stripe.publishableKey = StripeKeys.publishableKey;
+  print("✅ Publishable Key: ${StripeKeys.publishableKey}");
 
   Get.put(CategoryController(), permanent: true);
   Get.put(ProductController(), permanent: true);
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: false),
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: CartScreen(),
+      home: SplashScreen(),
     );
   }
 }
