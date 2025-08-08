@@ -1,3 +1,5 @@
+// lib/controllers/payment_controller.dart
+
 import 'package:ecommerceapp/Screens/payment_method/widgets/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -6,49 +8,59 @@ import 'package:get/get.dart';
 class PaymentController extends GetxController {
   RxBool isLoading = false.obs;
 
-  final String amount = "100"; // 💰 Set static or dynamic amount
+  final String amount = "5"; // 💵 $5.00 — You can change this
 
   void makePayment() async {
     isLoading.value = true;
 
     try {
+      // STEP 1: Create payment intent from backend
       final paymentIntentData = await PaymentService.createPaymentIntent(
         amount: amount,
       );
 
-      print("🧾 Client Secret: ${paymentIntentData['clientSecret']}");
+      final clientSecret = paymentIntentData['clientSecret'];
+      print("🧾 Client Secret: $clientSecret");
 
+      // STEP 2: Initialize payment sheet
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-          paymentIntentClientSecret: paymentIntentData['clientSecret'],
+          paymentIntentClientSecret: clientSecret,
           merchantDisplayName: 'Shopping Hub by Aazim',
+          style: ThemeMode.light,
           appearance: PaymentSheetAppearance(
             colors: PaymentSheetAppearanceColors(
               background: Colors.white,
-              componentBackground: Colors.grey,
+              componentBackground: Colors.white,
               componentBorder: Colors.black,
               primaryText: Colors.black,
-              placeholderText: Colors.black,
-              primary: Color(0xff005DFF),
-              componentText: Colors.white,
+              placeholderText: Colors.grey,
+              primary: Colors.blue,
+              componentText: Colors.black,
             ),
           ),
         ),
       );
 
+      // STEP 3: Present payment sheet
       await Stripe.instance.presentPaymentSheet();
 
+      // STEP 4: Show success message
       Get.snackbar(
-        "✅ Success",
-        "Payment Successful",
+        "✅ Payment Successful",
+        "Your payment was successful.",
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.shade100,
+        colorText: Colors.black,
       );
     } catch (e) {
+      print("❌ Error during payment: $e");
       Get.snackbar(
-        "❌ Cancelled",
-        "Payment was cancelled.",
+        "❌ Payment Failed",
+        e.toString(),
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.red.shade100,
+        colorText: Colors.black,
       );
     } finally {
       isLoading.value = false;

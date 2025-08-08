@@ -1,4 +1,4 @@
-import 'package:ecommerceapp/Widgets/bottom_navigation_bar.dart';
+import 'package:ecommerceapp/Screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       isLoading = false;
     });
 
-    Get.off(() => BottomNavBarScreen(initialIndex: 0));
+    Get.off(() => LoginScreen());
   }
 
   @override
@@ -48,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               width: 300,
               fit: BoxFit.cover,
             ),
-             SizedBox(height: 20),
+            SizedBox(height: 20),
             Text(
               "Where Style",
               style: GoogleFonts.actor(
@@ -66,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             Padding(
-              padding:EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 "Join us to celebrate stylish, comfy footwear\nYour path to extraordinary style begins here",
                 textAlign: TextAlign.center,
@@ -79,7 +79,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-          SizedBox(height: 20),
+            SizedBox(height: 20),
             isLoading
                 ? CircularProgressIndicator(color: Colors.black)
                 : ElevatedButton(
