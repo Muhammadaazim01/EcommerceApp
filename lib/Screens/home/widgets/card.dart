@@ -31,7 +31,7 @@ final CartController cartController = Get.find<CartController>();
 final favoriteController = Get.find<FavoriteController>();
 
 class _ShoeCardState extends State<ShoeCard> {
-  bool isAdding = false; // 👈 add this
+  bool isAdding = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,6 @@ class _ShoeCardState extends State<ShoeCard> {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.15),
               blurRadius: 20,
               offset: Offset(0, 10),
@@ -55,6 +54,7 @@ class _ShoeCardState extends State<ShoeCard> {
           ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Stack(
               children: [
@@ -70,7 +70,6 @@ class _ShoeCardState extends State<ShoeCard> {
                   right: 25,
                   child: Obx(() {
                     bool isFav = favoriteController.isFavorite(widget.product);
-
                     return GestureDetector(
                       onTap: () =>
                           favoriteController.toggleFavorite(widget.product),
@@ -84,7 +83,7 @@ class _ShoeCardState extends State<ShoeCard> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8), // thoda kam kiya
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -99,28 +98,35 @@ class _ShoeCardState extends State<ShoeCard> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  SizedBox(height: 6), // thoda kam kiya
                   Text(
                     widget.subtitle,
-                    style: TextStyle(fontSize: 14, color: Color(0xffABA9A9)),
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      color: Color(0xffABA9A9),
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  SizedBox(height: 4), // thoda kam kiya
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.price,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                      Flexible(
+                        child: Text(
+                          widget.price,
+                          style: GoogleFonts.montserrat(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       isAdding
                           ? SizedBox(
-                              height: 30,
+                              height: 36,
                               width: 100,
                               child: Center(
                                 child: SizedBox(
@@ -135,35 +141,49 @@ class _ShoeCardState extends State<ShoeCard> {
                             )
                           : GestureDetector(
                               onTap: () async {
-                                setState(
-                                  () => isAdding = true,
-                                ); // 👈 show loader
+                                bool alreadyInCart = cartController.cartItems
+                                    .any(
+                                      (item) => item.id == widget.product.id,
+                                    );
+
+                                if (alreadyInCart) {
+                                  Get.snackbar(
+                                    "Already in Cart",
+                                    "${widget.product.title} is already in your cart.",
+                                    backgroundColor: Colors.grey[800],
+                                    colorText: Colors.white,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    margin: EdgeInsets.all(12),
+                                    borderRadius: 8,
+                                    duration: Duration(seconds: 2),
+                                  );
+                                  return; // Loader skip
+                                }
+
+                                setState(() => isAdding = true);
+
+                                // Fake delay to show loader
                                 await Future.delayed(
                                   Duration(milliseconds: 700),
-                                ); // optional delay
-                                cartController.addToCart(widget.product);
-                                setState(
-                                  () => isAdding = false,
-                                ); // 👈 hide loader
-                                Get.snackbar(
-                                  backgroundColor: Colors.blueGrey,
-                                  "Added to Cart",
-                                  "${widget.product.title} added successfully!",
-                                  snackPosition: SnackPosition.BOTTOM,
                                 );
+
+                                cartController.addToCart(widget.product);
+
+                                setState(() => isAdding = false);
                               },
+
                               child: Container(
-                                height: 30,
+                                height: 36,
                                 width: 100,
                                 decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: Color(0xFFFF512F),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(
                                   child: Text(
                                     "Add to Cart",
                                     style: GoogleFonts.roboto(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
@@ -174,7 +194,7 @@ class _ShoeCardState extends State<ShoeCard> {
                 ],
               ),
             ),
-            SizedBox(height: 14),
+            SizedBox(height: 12),
           ],
         ),
       ),

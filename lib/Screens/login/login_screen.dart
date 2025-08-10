@@ -1,7 +1,9 @@
-import 'package:ecommerceapp/Screens/login/widgets/auth_controller.dart';
+import 'package:ecommerceapp/Screens/login/sign_in.dart';
+import 'package:ecommerceapp/Screens/login/widgets/login_controller.dart';
 import 'package:ecommerceapp/Screens/login/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,43 +15,44 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final authController = Get.find<AuthController>();
+  final loginController = Get.find<LoginController>();
   bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xff000000), Color(0xff005DFF)],
+            colors: [
+              Color(0xFFFF512F), // Bright Orange
+              Color(0xFFF09819),
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 40.0,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Login here',
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(height: 8),
                   Text(
                     'Welcome back you\'ve been missed!',
-                    style: TextStyle(fontSize: 16, color: Colors.grey[400]),
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ),
                   ),
                   SizedBox(height: 40),
 
@@ -70,57 +73,79 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: Icons.lock,
                   ),
 
-                  SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forgot your password?',
-                        style: TextStyle(color: Colors.blue),
-                      ),
+                      onPressed: () {
+                        setState(() {
+                          isLoading = true; // Loader start
+                        });
+
+                        Future.delayed(Duration(seconds: 2), () {
+                          setState(() {
+                            isLoading = false; // Loader stop
+                          });
+                          Get.off(() => SignIn());
+                        });
+                      },
+                      child: isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.black54,
+                              ),
+                            )
+                          : Text(
+                              "Don't have an account? Sign up",
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black54,
+                              ),
+                            ),
                     ),
                   ),
+
                   SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await authController.login(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                          );
-                          setState(() {
-                            isLoading = false;
-                          });
-                        },
+
+                  /// Login Button with loader inside Obx
+                  Center(
+                    child: Obx(() {
+                      return ElevatedButton(
+                        onPressed: loginController.isLoading.value
+                            ? null
+                            : () async {
+                                await loginController.login(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
+                                );
+                              },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color(0xFFFF512F),
                           minimumSize: Size(200, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: Text(
-                          'Login in',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                      ),
-                    ],
+                        child: loginController.isLoading.value
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.black,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text(
+                                'Login in',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                      );
+                    }),
                   ),
-
-                  SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      'or continue with',
-                      style: TextStyle(color: Colors.grey[400]),
-                    ),
-                  ),
-                  SizedBox(height: 10),
                 ],
               ),
             ),

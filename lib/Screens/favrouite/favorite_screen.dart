@@ -6,6 +6,7 @@ import 'package:ecommerceapp/controllers/product_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -19,23 +20,47 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: Color(0xFFF8F8F8),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("My Favorites"),
+        title: Text(
+          "Favourite item",
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFFF512F), // Bright Orange
+                Color(0xFFF09819), //ght Blue
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black, // <-- yahan apna custom color do
+          size: 28, // optional size change
+        ),
       ),
       body: Obx(() {
         if (favoriteController.favoriteItems.isEmpty) {
-          return const Center(
-            child: Text("No favorite items", style: TextStyle(fontSize: 16)),
+          return Center(
+            child: Text(
+              "No favorite items",
+              style: GoogleFonts.montserrat(fontSize: 16),
+            ),
           );
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
           itemCount: favoriteController.favoriteItems.length,
           itemBuilder: (context, index) {
             final product = favoriteController.favoriteItems[index];
@@ -45,9 +70,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 Get.to(() => DetailScreen(productModel: product));
               },
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
-                margin: const EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -56,7 +81,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       color: Colors.grey.withOpacity(0.15),
                       spreadRadius: 1,
                       blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
@@ -66,7 +91,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
+                          borderRadius: BorderRadius.vertical(
                             top: Radius.circular(16),
                           ),
                           child: buildProductImage(
@@ -76,31 +101,31 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(16.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 product.title ?? "No Title",
-                                style: const TextStyle(
+                                style: GoogleFonts.montserrat(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 6),
+                              SizedBox(height: 6),
                               Text(
                                 product.category?.name ?? "No Category",
-                                style: TextStyle(
+                                style: GoogleFonts.montserrat(
                                   fontSize: 14,
                                   color: Colors.grey[600],
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8),
                               Text(
                                 product.price != null
                                     ? '\$${product.price}'
                                     : "No Price",
-                                style: const TextStyle(
+                                style: GoogleFonts.montserrat(
                                   fontSize: 16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
@@ -116,29 +141,124 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       right: 12,
                       child: InkWell(
                         onTap: () {
-                          favoriteController.toggleFavorite(product);
-                          Get.snackbar(
-                            "Removed",
-                            "${product.title} removed from favorites",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.blueGrey,
-                            colorText: Colors.black,
+                          Get.defaultDialog(
+                            backgroundColor: Colors
+                                .transparent, // Transparent for gradient container
+                            title: "", // Title hataya
+                            content: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xFFFF512F), // Bright Orange
+                                    Color(0xFFF09819), // Pink
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Remove Favorite",
+                                    style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    "Are you sure you want to delete?",
+                                    style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Color(0xFFFF512F),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: Text(
+                                          "No",
+                                          style: GoogleFonts.montserrat(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Color(0xFFFF512F),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          favoriteController.toggleFavorite(
+                                            product,
+                                          );
+                                          Get.back();
+
+                                          Get.snackbar(
+                                            "Removed",
+                                            "${product.title} has been removed from favorites",
+                                            backgroundColor: Colors.grey[800],
+                                            colorText: Colors.white,
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            margin: EdgeInsets.all(12),
+                                            borderRadius: 8,
+                                            duration: Duration(seconds: 2),
+                                          );
+                                        },
+                                        child: Text(
+                                          "Yes",
+                                          style: GoogleFonts.montserrat(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
                         },
+
                         child: Container(
-                          padding: const EdgeInsets.all(6),
+                          padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Colors.black,
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.1),
                                 blurRadius: 5,
-                                offset: const Offset(2, 2),
+                                offset: Offset(2, 2),
                               ),
                             ],
                           ),
-                          child: const Icon(Icons.delete, color: Colors.black),
+                          child: Icon(Icons.delete, color: Color(0xFFFF512F)),
                         ),
                       ),
                     ),

@@ -8,7 +8,9 @@ class PaymentService {
     required String amount,
     String currency = 'usd',
   }) async {
-    final url = Uri.parse("http://192.168.18.126:4242/create-payment-intent");
+    final url = Uri.parse(
+      "https://stripe-beckend-clean-b16p.vercel.app/create-payment-intent",
+    );
 
     final body = jsonEncode({
       'amount': calculateAmount(amount),

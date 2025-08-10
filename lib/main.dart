@@ -1,6 +1,8 @@
 import 'package:ecommerceapp/Screens/cart/cart_controller.dart';
+
 import 'package:ecommerceapp/Screens/favrouite/controller.dart';
-import 'package:ecommerceapp/Screens/login/widgets/auth_controller.dart';
+import 'package:ecommerceapp/Screens/login/widgets/login_controller.dart';
+import 'package:ecommerceapp/Screens/login/widgets/sign_in_controller.dart';
 import 'package:ecommerceapp/Screens/payment_method/api_keys.dart';
 import 'package:ecommerceapp/Screens/payment_method/widgets/payment_controller.dart';
 import 'package:ecommerceapp/Screens/splash_screen.dart';
@@ -14,19 +16,18 @@ import 'controllers/product_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-
+  await Firebase.initializeApp();
 
   await dotenv.load(fileName: ".env");
   Stripe.publishableKey = StripeKeys.publishableKey;
-  print("✅ Publishable Key: ${StripeKeys.publishableKey}");
 
   Get.put(CategoryController(), permanent: true);
   Get.put(ProductController(), permanent: true);
   Get.put(CartController(), permanent: true);
   Get.put(FavoriteController(), permanent: true);
   Get.put(PaymentController(), permanent: true);
-    Get.put(AuthController(),permanent: true);
+  Get.put(LoginController(), permanent: true);
+  Get.put(SignUpController(), permanent: true);
 
   runApp(MyApp());
 }

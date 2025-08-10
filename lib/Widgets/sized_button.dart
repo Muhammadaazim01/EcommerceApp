@@ -27,13 +27,13 @@ class SizedButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: isSelected
               ? LinearGradient(
-                  colors: [Colors.black, Colors.grey[800]!],
+                  colors: [Color(0xFFFF512F), Color(0xFFF09819)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
               : null,
-          color: isSelected ? null : Colors.grey,
-          border: Border.all(color: Colors.grey, width: 3),
+          color: isSelected ? null : Colors.black38,
+          //   border: Border.all(color: Color(0xFFFF512F), width: 3),
           borderRadius: BorderRadius.circular(14),
 
           boxShadow: [
@@ -51,7 +51,7 @@ class SizedButton extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.white : Colors.black87,
+              color: isSelected ? Colors.black : Colors.black87,
               //  letterSpacing: 0.5,
             ),
           ),

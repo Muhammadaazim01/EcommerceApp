@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ExpandableText extends StatefulWidget {
   final String text;
   final int trimLines;
 
-  const ExpandableText({Key? key, required this.text, this.trimLines = 5})
-    : super(key: key);
+  const ExpandableText({super.key, required this.text, this.trimLines = 5});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ExpandableTextState createState() => _ExpandableTextState();
 }
 
@@ -32,14 +33,14 @@ class _ExpandableTextState extends State<ExpandableText> {
           widget.text,
           maxLines: isExpanded ? null : widget.trimLines,
           overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.grey),
+          style: GoogleFonts.montserrat(color: Colors.grey),
         ),
         if (isOverflow)
           GestureDetector(
             onTap: () => setState(() => isExpanded = !isExpanded),
             child: Text(
               isExpanded ? 'Show less' : 'Show more',
-              style: const TextStyle(
+              style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),

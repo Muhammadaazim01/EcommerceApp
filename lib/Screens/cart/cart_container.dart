@@ -29,7 +29,7 @@ class CartItemWidget extends StatelessWidget {
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Row(
             children: [
               /// ✅ Use reusable image widget here
@@ -72,9 +72,106 @@ class CartItemWidget extends StatelessWidget {
                           ],
                         ),
                         IconButton(
-                          icon: Icon(Icons.delete_outline),
+                          icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
-                            cartController.removeItem(index);
+                            Get.dialog(
+                              Dialog(
+                                backgroundColor: Colors.transparent,
+                                child: Container(
+                                  padding: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFFF512F), // Bright Orange
+                                        Color(0xFFF09819),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Remove Item",
+                                        style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Are you sure you want to remove in cart?",
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.black54,
+                                          fontSize: 14,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox(height: 20),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Color(
+                                                0xFFFF512F,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Get.back(); // Just close
+                                            },
+                                            child: Text(
+                                              "No",
+
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Color(
+                                                0xFFFF512F,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              cartController.removeItem(
+                                                index,
+                                              ); // Item remove
+                                              Get.back();
+
+                                              Get.snackbar(
+                                                "Removed",
+                                                "Item removed from cart",
+                                                backgroundColor:
+                                                    Colors.grey[800],
+                                                colorText: Colors.white,
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                                margin: EdgeInsets.all(12),
+                                                borderRadius: 8,
+                                                duration: Duration(seconds: 2),
+                                              );
+                                            },
+                                            child: Text(
+                                              "Yes",
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
                           },
                         ),
                       ],

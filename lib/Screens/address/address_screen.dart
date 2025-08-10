@@ -1,151 +1,168 @@
 import 'package:ecommerceapp/Screens/address/address_controller.dart';
-import 'package:ecommerceapp/Screens/address/address_model.dart';
+import 'package:ecommerceapp/Screens/address/widgtes/bottom_sheet.dart';
+import 'package:ecommerceapp/Screens/cart/cart_main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class AddressScreen extends StatelessWidget {
+class AddressScreen extends StatefulWidget {
   AddressScreen({super.key});
 
+  @override
+  State<AddressScreen> createState() => _AddressScreenState();
+}
+
+class _AddressScreenState extends State<AddressScreen> {
+  var isLoading = false.obs;
+
   final AddressController addressController = Get.put(AddressController());
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descController = TextEditingController();
+
+  void _showAddAddressSheet() {
+    Get.bottomSheet(AddAddressBottomSheet(), isScrollControlled: true);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Stack(
-        children: [
-          Scaffold(
-            backgroundColor: Colors.grey[100],
-            appBar: AppBar(
-              title: const Text("Add New Address"),
-              centerTitle: true,
-              backgroundColor: Colors.blueAccent,
-              elevation: 0,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Add Your Address",
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFFF512F), // Bright Orange
+                Color(0xFFF09819), //ght Blue
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Card(
-                  elevation: 6,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  shadowColor: Colors.black12,
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black, // <-- yahan apna custom color do
+          size: 28, // optional size change
+        ),
+      ),
+      body: Obx(() {
+        if (addressController.isLoading.value) {
+          // Loading spinner during API fetch
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.black,
+              strokeWidth: 2,
+            ),
+          );
+        }
+
+        if (addressController.addressList.isEmpty) {
+          // Agar address list khali ho
+          return Center(
+            child: Text(
+              "No Addresses Added Yet",
+              style: GoogleFonts.montserrat(fontSize: 18, color: Colors.grey),
+            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: EdgeInsets.all(15),
+          itemCount: addressController.addressList.length,
+          itemBuilder: (context, index) {
+            final addr = addressController.addressList[index];
+            final isSelected =
+                addressController.selectedAddress.value?.id == addr.id;
+
+            return GestureDetector(
+              onTap: () async {
+                addressController.isLoading.value = true;
+                addressController.selectedAddress.value = addr;
+                addressController.selectedAddress.refresh();
+                await Future.delayed(Duration(seconds: 1));
+                addressController.isLoading.value = false;
+                Get.to(() => CartScreen());
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: isSelected ? Colors.green : Colors.grey.shade200,
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.15),
+                          blurRadius: 8,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Enter Address Details",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Name Field
-                        TextField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                            hintText: "Name",
-                            prefixIcon: Icon(Icons.home_outlined),
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Description Field
-                        TextField(
-                          controller: descController,
-                          decoration: InputDecoration(
-                            hintText: "Description",
-                            prefixIcon: Icon(Icons.description_outlined),
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                          maxLines: 3,
-                        ),
-                        const SizedBox(height: 24),
-
-                        // Save Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                        Icon(Icons.location_on, color: Colors.red, size: 26),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                addr.name ?? "",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            icon: Icon(Icons.save_alt_rounded),
-                            label: const Text(
-                              "Save Address",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            onPressed: () async {
-                              if (nameController.text.trim().isEmpty ||
-                                  descController.text.trim().isEmpty) {
-                                Get.snackbar(
-                                  "Error",
-                                  "Please fill all fields",
-                                  backgroundColor: Colors.redAccent,
-                                  colorText: Colors.white,
-                                );
-                                return;
-                              }
-
-                              addressController.isLoading.value = true;
-
-                              AddressModel newAddress = AddressModel(
-                                id: DateTime.now().millisecondsSinceEpoch,
-                                name: nameController.text,
-                                description: descController.text,
-                                latitude: 0.0,
-                                longitude: 0.0,
-                              );
-
-                              await Future.delayed(
-                                Duration(seconds: 2),
-                              ); // simulate loading
-                              addressController.addAddress(newAddress);
-
-                              addressController.isLoading.value = false;
-                              Get.back();
-                            },
+                              SizedBox(height: 4),
+                              Text(
+                                addr.description ?? "",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
 
-          // Loader overlay
-          if (addressController.isLoading.value)
-            Container(
-              color: Colors.black.withOpacity(0.4),
-              child: Center(
-                child: CircularProgressIndicator(color: Colors.black),
+                  if (isSelected)
+                    Positioned(
+                      right: 10,
+                      top: 10,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 24,
+                      ),
+                    ),
+                ],
               ),
-            ),
-        ],
-      );
-    });
+            );
+          },
+        );
+      }),
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showAddAddressSheet,
+        backgroundColor: Color(0xFFFF512F),
+        icon: Icon(Icons.add, color: Colors.black),
+        label: Text("Add", style: GoogleFonts.montserrat(color: Colors.black)),
+      ),
+    );
   }
 }

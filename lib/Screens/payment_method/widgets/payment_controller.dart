@@ -1,28 +1,26 @@
-// lib/controllers/payment_controller.dart
-
 import 'package:ecommerceapp/Screens/payment_method/widgets/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 
 class PaymentController extends GetxController {
   RxBool isLoading = false.obs;
+  RxBool paymentSuccess = false.obs; // <-- naya observable for success
 
-  final String amount = "5"; // 💵 $5.00 — You can change this
+  final String amount = "5";
 
   void makePayment() async {
     isLoading.value = true;
+    paymentSuccess.value = false; // Reset before payment
 
     try {
-      // STEP 1: Create payment intent from backend
       final paymentIntentData = await PaymentService.createPaymentIntent(
         amount: amount,
       );
 
       final clientSecret = paymentIntentData['clientSecret'];
-      print("🧾 Client Secret: $clientSecret");
 
-      // STEP 2: Initialize payment sheet
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: clientSecret,
@@ -42,10 +40,10 @@ class PaymentController extends GetxController {
         ),
       );
 
-      // STEP 3: Present payment sheet
       await Stripe.instance.presentPaymentSheet();
 
-      // STEP 4: Show success message
+      paymentSuccess.value = true; // <-- Success hua
+
       Get.snackbar(
         "✅ Payment Successful",
         "Your payment was successful.",
@@ -54,13 +52,15 @@ class PaymentController extends GetxController {
         colorText: Colors.black,
       );
     } catch (e) {
-      print("❌ Error during payment: $e");
       Get.snackbar(
         "❌ Payment Failed",
-        e.toString(),
+        "Please add a card",
+        backgroundColor: Colors.grey[800],
+        colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.shade100,
-        colorText: Colors.black,
+        margin: EdgeInsets.all(12),
+        borderRadius: 8,
+        duration: Duration(seconds: 2),
       );
     } finally {
       isLoading.value = false;

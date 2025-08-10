@@ -1,4 +1,3 @@
-import 'package:ecommerceapp/Screens/login/widgets/auth_controller.dart';
 import 'package:ecommerceapp/Screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,11 +12,10 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final authController = Get.find<AuthController>();
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 4), () {
       // Always go to Welcome screen after splash
       Get.off(() => const WelcomeScreen());
     });
@@ -29,11 +27,15 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xff000000), Color(0xff005DFF)],
+            colors: [
+              Color(0xFFFF512F),
+              Color(0xFFF09819), 
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
+
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

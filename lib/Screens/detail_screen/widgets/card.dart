@@ -69,7 +69,7 @@ class _DetailCardState extends State<DetailCard> {
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
 
         // Rating Row
         Row(
@@ -78,12 +78,12 @@ class _DetailCardState extends State<DetailCard> {
               widget.category,
               style: GoogleFonts.montserrat(fontSize: 14, color: Colors.grey),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             ...List.generate(
               5,
-              (index) => const Icon(Icons.star, color: Colors.yellow, size: 20),
+              (index) => Icon(Icons.star, color: Colors.yellow, size: 20),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               '${widget.rating}',
               style: GoogleFonts.montserrat(fontSize: 14, color: Colors.grey),
@@ -91,7 +91,7 @@ class _DetailCardState extends State<DetailCard> {
           ],
         ),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // Colors Row
         Row(
@@ -108,7 +108,7 @@ class _DetailCardState extends State<DetailCard> {
           ],
         ),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // Size Guide
         Row(
@@ -117,7 +117,7 @@ class _DetailCardState extends State<DetailCard> {
               "Select a Size",
               style: GoogleFonts.montserrat(fontSize: 14, color: Colors.black),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               "(view size guide)",
               style: GoogleFonts.montserrat(fontSize: 16, color: Colors.grey),
@@ -125,7 +125,7 @@ class _DetailCardState extends State<DetailCard> {
           ],
         ),
 
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
 
         SizedBox(
           height: 60,
@@ -148,7 +148,7 @@ class _DetailCardState extends State<DetailCard> {
           ),
         ),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 10),
 
         // Description
         Row(
@@ -164,20 +164,20 @@ class _DetailCardState extends State<DetailCard> {
             ),
             TextButton(
               onPressed: () {},
-              child: const Text(
+              child: Text(
                 'Details',
-                style: TextStyle(color: Colors.black),
+                style: GoogleFonts.montserrat(color: Colors.black),
               ),
             ),
           ],
         ),
         ExpandableText(text: widget.description),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
 
         // Add to Cart Button
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () {
               final cartController = Get.find<CartController>();
@@ -186,14 +186,17 @@ class _DetailCardState extends State<DetailCard> {
               Get.snackbar(
                 "Added to Cart",
                 "${widget.productModel.title ?? "Item"} added successfully",
-                backgroundColor: Colors.blueGrey,
+                backgroundColor: Colors.grey[800],
                 colorText: Colors.white,
                 snackPosition: SnackPosition.BOTTOM,
+                margin: EdgeInsets.all(12),
+                borderRadius: 8,
+                duration: Duration(seconds: 2),
               );
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(60),
-              backgroundColor: Colors.black,
+              minimumSize: Size.fromHeight(60),
+              backgroundColor: Color(0xFFFF512F),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -203,7 +206,7 @@ class _DetailCardState extends State<DetailCard> {
               style: GoogleFonts.montserrat(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),

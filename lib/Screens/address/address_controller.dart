@@ -7,6 +7,9 @@ class AddressController extends GetxController {
   var isLoading = false.obs;
   final AddressServices addressServices = AddressServices();
 
+  // 🆕 Selected address store
+  var selectedAddress = Rxn<AddressModel>();
+
   @override
   void onInit() {
     fetchAddresses();
@@ -18,6 +21,13 @@ class AddressController extends GetxController {
       isLoading.value = true;
       var addresses = await addressServices.getAddress();
       addressList.assignAll(addresses);
+
+      // 🆕 Agar address list khaali nahi hai to pehla address select
+      if (addresses.isNotEmpty) {
+        selectedAddress.value = addresses.first;
+      } else {
+        selectedAddress.value = null;
+      }
     } catch (e) {
       print("Error fetching addresses: $e");
     } finally {
@@ -28,10 +38,22 @@ class AddressController extends GetxController {
   void addAddress(AddressModel newAddress) {
     addressList.add(newAddress);
     addressList.refresh();
+    selectedAddress.value = newAddress; // 🆕 naya add hote hi select
   }
 
   void deleteAddress(int id) {
     addressList.removeWhere((address) => address.id == id);
-    update(); // if you're using GetBuilder, otherwise use RxList
+
+    // 🆕 Delete hone ke baad selected address update
+    if (addressList.isNotEmpty) {
+      selectedAddress.value = addressList.first;
+    } else {
+      selectedAddress.value = null;
+    }
+  }
+
+  // 🆕 User manually address select kare
+  void selectAddress(AddressModel address) {
+    selectedAddress.value = address;
   }
 }

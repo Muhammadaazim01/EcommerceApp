@@ -34,7 +34,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xff000000), Color(0xff005DFF)],
+            colors: [
+              Color(0xFFFF512F), // Bright Orange
+              Color(0xFFF09819),
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -54,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               style: GoogleFonts.actor(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             Text(
@@ -62,18 +65,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               style: GoogleFonts.actor(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                "Join us to celebrate stylish, comfy footwear\nYour path to extraordinary style begins here",
+                "Join us to celebrate stylish, comfy fashion\nYour path to extraordinary style begins here",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black54,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -81,17 +84,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             SizedBox(height: 20),
             isLoading
-                ? CircularProgressIndicator(color: Colors.black)
+                ? CircularProgressIndicator(color: Colors.black, strokeWidth: 2)
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                      backgroundColor: Color(0xFFFF512F),
                       minimumSize: Size(300, 76),
                     ),
                     onPressed: handleStart,
                     child: Text(
                       "Get Started",
                       style: GoogleFonts.roboto(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 24,
                       ),
                     ),

@@ -4,16 +4,20 @@ import 'package:ecommerceapp/Screens/home/widgets/custom_image_widget.dart';
 import 'package:ecommerceapp/Screens/home/widgets/headers.dart';
 import 'package:ecommerceapp/Screens/home/widgets/small_card.dart';
 import 'package:ecommerceapp/Screens/home/widgets/tabbar.dart' show ShoeTabBar;
+import 'package:ecommerceapp/Screens/login/widgets/sign_in_controller.dart';
 import 'package:ecommerceapp/controllers/category_controller.dart';
 import 'package:ecommerceapp/controllers/product_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget buildHeader({
   required BuildContext context,
   required CategoryController categoryController,
   required int selectedIndex,
   required dynamic Function(int) onTabSelected,
+  required SignUpController signUpController,
+  VoidCallback? onLogoutPressed,
 }) {
   return Container(
     height: 250,
@@ -21,7 +25,10 @@ Widget buildHeader({
     padding: EdgeInsets.all(20),
     decoration: BoxDecoration(
       gradient: LinearGradient(
-        colors: [Color(0xff000000), Color(0xff005DFF)],
+        colors: [
+          Color(0xFFFF512F), // Bright Orange
+          Color(0xFFF09819),
+        ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
@@ -36,14 +43,72 @@ Widget buildHeader({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(),
-            Obx(
-              () => Stack(
+            IconButton(
+              icon: Icon(Icons.person, color: Colors.black),
+              onPressed: () async {
+                // Position calculate karo for popup menu
+                final RenderBox button =
+                    context.findRenderObject() as RenderBox;
+                final RenderBox overlay =
+                    Overlay.of(context).context.findRenderObject() as RenderBox;
+
+                final RelativeRect position = RelativeRect.fromRect(
+                  Rect.fromPoints(
+                    button.localToGlobal(Offset.zero, ancestor: overlay),
+                    button.localToGlobal(
+                      button.size.bottomRight(Offset.zero),
+                      ancestor: overlay,
+                    ),
+                  ),
+                  Offset.zero & overlay.size,
+                );
+
+                final result = await showMenu<String>(
+                  context: context,
+                  position: position,
+                  color: Colors.black,
+                  items: [
+                    PopupMenuItem<String>(
+                      value: signUpController.userName.value,
+                      enabled: false,
+                      child: Text(
+                        signUpController.userName.value,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    PopupMenuDivider(),
+                    PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Text(
+                        'Logout',
+                        style: GoogleFonts.montserrat(
+                          color: Color(0xFFFF512F),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+
+                if (result == 'logout') {
+                  if (onLogoutPressed != null) {
+                    onLogoutPressed();
+                  }
+                }
+              },
+            ),
+
+            // Cart icon etc
+            Obx(() {
+              return Stack(
                 children: [
                   IconButton(
                     icon: Icon(
                       Icons.shopping_cart_outlined,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     onPressed: () {
                       Get.to(() => const CartScreen());
@@ -56,35 +121,38 @@ Widget buildHeader({
                       child: Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.black,
                           shape: BoxShape.circle,
                         ),
                         child: Text(
                           '${cartController.cartItems.length}',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
+                          style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
                     ),
                 ],
-              ),
-            ),
+              );
+            }),
           ],
         ),
         SizedBox(height: 10),
         Text(
           "TrendVerse",
-          style: TextStyle(
+          style: GoogleFonts.montserrat(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         Text(
           "Collection",
-          style: TextStyle(
+          style: GoogleFonts.montserrat(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         SizedBox(height: 10),
